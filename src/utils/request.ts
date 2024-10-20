@@ -52,9 +52,13 @@ axiosInstance.interceptors.response.use((response: IAxiosResponse) => {
         if ([401, 403].includes(response.data.code)) {
             // 使用防抖，防止短时间内多次弹出错误提示
             debounce(() => {
-                ElMessage.error(response.data.message);
-                // 跳转到登录页面
-                window.location.href = '/login';
+                ElMessage.error({
+                    message: response.data.message,
+                    onClose: () => {
+                        // 跳转到登录页面
+                        window.location.href = `/login?redirect_url=${encodeURIComponent(window.location.href)}`;
+                    }
+                });
             })
         }
 

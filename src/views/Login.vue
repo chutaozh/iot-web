@@ -9,14 +9,15 @@
                         <el-form-item label="" prop="account">
                             <div class="input-wrapper">
                                 <img alt="" src="@/assets/icons/icon-account-box-fill.svg" />
-                                <el-input prefix-icon="" v-model="formValue.account" placeholder="请输入账号" @keyup.enter="handleLogin(formRef)" />
+                                <el-input prefix-icon="" v-model="formValue.account" placeholder="请输入账号"
+                                    @keyup.enter="handleLogin(formRef)" />
                             </div>
                         </el-form-item>
                         <el-form-item label="" prop="password">
                             <div class="input-wrapper">
                                 <img alt="" src="@/assets/icons/icon-lock-fill.svg" />
-                                <el-input prefix-icon="" v-model="formValue.password" placeholder="请输入密码" @keyup.enter="handleLogin(formRef)"
-                                    type="password">
+                                <el-input prefix-icon="" v-model="formValue.password" placeholder="请输入密码"
+                                    @keyup.enter="handleLogin(formRef)" type="password">
                                 </el-input>
                             </div>
                         </el-form-item>
@@ -24,8 +25,8 @@
                             <div class="verify-code">
                                 <div class="input-wrapper">
                                     <img alt="" src="@/assets/icons/icon-shield-check-fill.svg" />
-                                    <el-input prefix-icon="" v-model="formValue.verifyCode" @keyup.enter="handleLogin(formRef)"
-                                        placeholder="请输入验证码"></el-input>
+                                    <el-input prefix-icon="" v-model="formValue.verifyCode"
+                                        @keyup.enter="handleLogin(formRef)" placeholder="请输入验证码"></el-input>
                                 </div>
                                 <img class="captcha" alt="" :src="loginStore.verifyCode"
                                     @click="loginStore.getCaptchaAsync" />
@@ -93,7 +94,18 @@ const handleLogin = async (formEl?: FormInstance) => {
             const isSuccess = await loginStore.loginAsync(formValue.account, formValue.password, formValue.verifyCode)
 
             if (isSuccess) {
-                router.push('/home')
+                const params = new URLSearchParams(window.location.search);
+                const redirectUrl = params.get('redirect_url');
+                
+                // 如果有重定向地址，则跳转到该地址，否则跳转到首页
+                if (redirectUrl) {
+                    window.location.href = decodeURIComponent(redirectUrl);
+                    return;
+                }
+
+                router.push('/home');
+            } else {
+                await loginStore.getCaptchaAsync();
             }
         }
     })

@@ -43,7 +43,6 @@ import { useUserStore } from '@/stores/user';
 import { ref } from 'vue';
 
 const openSettings = ref(false);
-console.log(openSettings.value);
 const userStore = useUserStore();
 const user = userStore.userInfo;
 

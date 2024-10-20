@@ -12,7 +12,7 @@ router.beforeEach((to, from, next) => {
     const token = getCookie('access_token');
 
     if (!token && to.path.toLowerCase() !== '/login') {
-        next({ path: '/login' })
+        next({ path: `/login?redirect_url=${encodeURIComponent(window.location.href)}` })
     }
 
     next();
