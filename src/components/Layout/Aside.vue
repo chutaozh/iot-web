@@ -21,6 +21,6 @@
 </template>
 
 <script lang="ts" setup>
-import menus from '@/constant/menus'
+import menus from '@/variables/menus'
 defineProps<{ active: string }>();
 </script>

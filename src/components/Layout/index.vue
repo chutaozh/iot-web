@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import Header from './Header.vue';
 import Aside from './Aside.vue';
-import menus from '@/constant/menus';
+import menus from '@/variables/menus';
 import { useUserStore } from '@/stores/user';
 import { useRoute } from 'vue-router';
 import { reactive, watch, onMounted } from 'vue';
